@@ -1,51 +1,54 @@
-Sonatype IQ Policy Waiver Extractor
-This Python script connects to a Sonatype IQ Server instance using its REST API to extract all policy waivers. It systematically fetches waivers applied at both the organization and application levels and consolidates them into a single JSON file.
+# Sonatype IQ Policy Waiver Extractor
 
-Description
+This Python script connects to a Sonatype IQ Server instance using its REST API to extract all policy waivers. It systematically fetches waivers applied at both the **organization** and **application** levels and consolidates them into a single JSON file.
+
+## Description
+
 The script is designed to provide a complete audit of all policy waivers within a Sonatype IQ Server. It performs the following actions:
 
-Authenticates to the Sonatype IQ Server using the provided credentials.
+1. Authenticates to the Sonatype IQ Server using the provided credentials.
+2. Fetches a list of all configured organizations.
+3. Iterates through each organization (including the `ROOT_ORGANIZATION_ID`) and requests any associated policy waivers.
+4. Fetches a list of all configured applications.
+5. Iterates through each application and requests its associated policy waivers.
+6. Aggregates all collected waivers into a single list.
+7. Saves the complete list of waivers to a JSON file named `all_policy_waivers.json`.
 
-Fetches a list of all configured organizations.
+## Prerequisites
 
-Iterates through each organization (including the ROOT_ORGANIZATION_ID) and requests any associated policy waivers.
-
-Fetches a list of all configured applications.
-
-Iterates through each application and requests its associated policy waivers.
-
-Aggregates all collected waivers into a single list.
-
-Saves the complete list of waivers to a JSON file named all_policy_waivers.json.
-
-Prerequisites
-Python 3.x
-
-The requests library for Python.
+* Python 3.x
+* The `requests` library for Python.
 
 You can install the necessary library using pip:
-
+```bash
 pip install requests
+```
 
-Usage
+## Usage
+
 The script is executed from the command line and requires the Sonatype IQ Server URL and user credentials to be passed as arguments.
 
-Command-Line Arguments
--u or --url: (Required) The full base URL of your Sonatype IQ Server (e.g., http://localhost:8070).
+### Command-Line Arguments
 
--a or --user: (Required) The username for a user with sufficient permissions to access the API endpoints.
+* `-u` or `--url`: **(Required)** The full base URL of your Sonatype IQ Server (e.g., `http://localhost:8070`).
+* `-a` or `--user`: **(Required)** The username for a user with sufficient permissions to access the API endpoints.
+* `-p` or `--password`: **(Required)** The password for the specified user.
 
--p or --password: (Required) The password for the specified user.
+### Example
 
-Example
+```bash
 python get_waivers.py --url http://your-sonatype-server:8070 --user your_username --password your_password
+```
 
 Replace the placeholder values with your actual server URL and credentials.
 
-Output
-The script will generate a file named all_policy_waivers.json in the same directory where the script is run. This file contains a JSON array of all the policy waiver objects found on the server.
+## Output
 
-Example JSON Output Structure
+The script will generate a file named `all_policy_waivers.json` in the same directory where the script is run. This file contains a JSON array of all the policy waiver objects found on the server.
+
+### Example JSON Output Structure
+
+```json
 [
     {
         "policyWaiverId": "c4fd6c26cbf754873c2536ff6fd1e6bf",
